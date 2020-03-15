@@ -1,28 +1,27 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <p>Count: {{ count }}</p>
+  <button @click="increment()">Increment</button>
+  <button @click="decrement()">Decrement</button>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+  setup() {
+    const store = useStore();
+    const count = computed(() => store.state.count);
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+    function increment() {
+      store.commit("increment");
+    }
+
+    function decrement() {
+      store.commit("decrement");
+    }
+
+    return { count, increment, decrement };
+  }
+};
+</script>
